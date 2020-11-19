@@ -1,0 +1,19 @@
+{
+  "name": "y",
+  "version": "0.0.0",
+  "description": "Uint8Array utils for parity with Buffers",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperdivision/bint8array.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyperdivision/bint8array/issues"
+  },
+  "homepage": "https://github.com/hyperdivision/bint8array#readme"
+}
