@@ -33,3 +33,46 @@ module.exports.fromString = function (str, enc) {
       throw new Error(`${enc} is not a supported encoding.`)
   }
 }
+
+module.exports.equals = function (a, b) {
+  if (a.byteLength !== b.byteLength) return false
+  for (let i = 0; i < a.byteLength; i++) {
+    if (a[i] !== b[i]) return false
+  }
+  return true
+}
+
+module.exports.equalsConstantTime = function (a, b) {
+  assert(a.byteLength === b.byteLength)
+
+  let check = 0
+  for (let i = 0; i < a.byteLength; i++) {
+    check |= a[i] ^ b[i]
+  }
+
+  return check === 0
+}
+
+module.exports.compare = function (a, b) {
+  let i
+  for (i = 0; i < a.byteLength; i++) {
+    if (a[i] < b[i]) return -1
+    if (a[i] > b[i]) return 1
+    if (i === b.byteLength) return -1
+  }
+
+  if (i === b.byteLength) return 0
+  return -1
+}
+
+module.exports.concat = function (bufs) {
+  const len = bufs.reduce((len, buf) => len + buf.byteLength, 0)
+
+  const ret = new Uint8Array(len)
+  bufs.reduce((acc, buf) => {
+    ret.set(buf, acc)
+    return acc + buf.byteLength
+  }, 0)
+
+  return ret
+}
