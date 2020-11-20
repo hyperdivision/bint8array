@@ -78,11 +78,5 @@ module.exports.concat = function (bufs) {
 }
 
 module.exports.allocUnsafe = function (size) {
-  const b = Buffer.allocUnsafe(size)
-  const u = new Uint8Array(b.buffer, b.byteOffset, b.byteLength)
-  return u
-}
-
-module.exports.allocBrowser = function (size) {
   return new Uint8Array(size)
 }

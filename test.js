@@ -2,7 +2,6 @@ const tape = require('tape')
 const fixtures = require('./fixtures')
 const bint = require('./')
 
-
 tape('toString methods', t => {
   for (let f of fixtures) {
     const arr = new Uint8Array(f.test)
@@ -45,6 +44,15 @@ tape('concat', t => {
     const check = new Uint8Array(fixtures[i].sum)
 
     t.same(sum, check)
+  }
+
+  t.end()
+})
+
+tape('allocUnsafe', t => {
+  for (let i = 1; i < 2 ** 30; i *= 2) {
+    const u = bint.allocUnsafe(i)
+    t.equal(u.byteLength, i)
   }
 
   t.end()
