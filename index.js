@@ -26,6 +26,8 @@ module.exports.fromString = function (str, enc) {
       return base64.fromString(str)
 
     case 'utf-8' :
+    case 'utf8' :
+    case 'ascii' :
     case undefined :
       return utf8.fromString(str)
 
