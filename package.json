@@ -1,6 +1,6 @@
 {
   "name": "y",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Uint8Array utils for parity with Buffers",
   "main": "index.js",
   "browser": "browser.js",
