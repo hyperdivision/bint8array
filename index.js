@@ -44,17 +44,6 @@ module.exports.equals = function (a, b) {
   return true
 }
 
-module.exports.equalsConstantTime = function (a, b) {
-  assert(a.byteLength === b.byteLength)
-
-  let check = 0
-  for (let i = 0; i < a.byteLength; i++) {
-    check |= a[i] ^ b[i]
-  }
-
-  return check === 0
-}
-
 module.exports.compare = function (a, b) {
   let i
   for (i = 0; i < a.byteLength; i++) {

@@ -3,7 +3,7 @@ const fixtures = require('./fixtures')
 const bint = require('./')
 
 tape('toString methods', t => {
-  for (let f of fixtures) {
+  for (const f of fixtures) {
     const arr = new Uint8Array(f.test)
 
     t.same(bint.toString(arr, 'hex'), f.hex)
@@ -15,7 +15,7 @@ tape('toString methods', t => {
 })
 
 tape('fromString methods', t => {
-  for (let f of fixtures) {
+  for (const f of fixtures) {
     const arr = new Uint8Array(f.test)
     const from = new Uint8Array(f.utf8from)
 
@@ -23,6 +23,11 @@ tape('fromString methods', t => {
     t.same(bint.fromString(f.base64, 'base64'), arr)
     t.same(bint.fromString(f.base64, 'utf-8'), from)
   }
+
+  t.throws(() => bint.fromString('ABCOPQRSTUVWX%$rstuvwxyz0123456789+/', 'base64'))
+  t.throws(() => bint.fromString('ABCOPQRSTUVWX=rstuvwxyz0123456789+/=', 'base64'))
+  t.throws(() => bint.fromString('ABCOPQRSTUVWXrstuvwxyz0123456789+/=', 'base64'))
+  t.throws(() => bint.fromString('0xdeadbeef', 'hex'))
 
   t.end()
 })
