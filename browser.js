@@ -38,22 +38,40 @@ module.exports.fromString = function (str, enc) {
 
 module.exports.equals = function (a, b) {
   if (a.byteLength !== b.byteLength) return false
-  for (let i = 0; i < a.byteLength; i++) {
+
+  const len = a.byteLength >>> 3
+  const A = new Float64Array(a.buffer, a.byteOffset, len)
+  const B = new Float64Array(b.buffer, b.byteOffset, len)
+
+  for (let i = 0; i < A.length; i++) {
+    if (A[i] !== B[i]) return false
+  }
+
+  for (let i = len << 3; i < a.byteLength; i++) {
     if (a[i] !== b[i]) return false
   }
+
   return true
 }
 
 module.exports.compare = function (a, b) {
-  let i
-  for (i = 0; i < a.byteLength; i++) {
-    if (a[i] < b[i]) return -1
-    if (a[i] > b[i]) return 1
-    if (i === b.byteLength) return -1
+  const min = Math.min(a.byteLength, b.byteLength)
+  const len = min >>> 2
+
+  const A = new Uint32Array(a.buffer, a.byteOffset, len)
+  const B = new Uint32Array(b.buffer, b.byteOffset, len)
+
+  for (let i = 0; i < len; i++) {
+    if (A[i] < B[i]) return -1
+    if (A[i] > B[i]) return 1
   }
 
-  if (i === b.byteLength) return 0
-  return -1
+  for (let i = len << 2; i < min; i++) {
+    if (a[i] < b[i]) return -1
+    if (a[i] > b[i]) return 1
+  }
+
+  return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0
 }
 
 module.exports.concat = function (bufs) {
