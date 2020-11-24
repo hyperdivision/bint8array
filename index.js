@@ -61,14 +61,15 @@ module.exports.compare = function (a, b) {
   const A = new Uint32Array(a.buffer, a.byteOffset, len)
   const B = new Uint32Array(b.buffer, b.byteOffset, len)
 
-  for (let i = 0; i < len; i++) {
-    if (A[i] < B[i]) return -1
-    if (A[i] > B[i]) return 1
+  let i
+  for (i = 0; i < len; i++) {
+    if (A[i] !== B[i]) break
   }
 
-  for (let i = len << 2; i < min; i++) {
-    if (a[i] < b[i]) return -1
-    if (a[i] > b[i]) return 1
+  const pos = i << 2
+  for (let j = pos; j < min; j++) {
+    if (a[j] < b[j]) return -1
+    if (a[j] > b[j]) return 1
   }
 
   return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0

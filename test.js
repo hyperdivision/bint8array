@@ -43,7 +43,7 @@ tape('compare', t => {
 })
 
 tape('equals', t => {
-  let bufs = fixtures.map(f => new Uint8Array(f.test))
+  const bufs = fixtures.map(f => new Uint8Array(f.test))
 
   for (let i = 0; i < bufs.length; i++) {
     for (let j = 0; j < bufs.length; j++) {
