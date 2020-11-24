@@ -42,6 +42,20 @@ tape('compare', t => {
   t.end()
 })
 
+tape('equals', t => {
+  let bufs = fixtures.map(f => new Uint8Array(f.test))
+
+  for (let i = 0; i < bufs.length; i++) {
+    for (let j = 0; j < bufs.length; j++) {
+      if (bint.equals(bufs[i], bufs[j]) !== (i === j)) {
+        t.fail(`fixture[${i}] !== fixture[${j}]`)
+      }
+    }
+  }
+
+  t.end()
+})
+
 tape('concat', t => {
   for (let i = 0; i < fixtures.length; i++) {
     const toConcat = fixtures.slice(0, i + 1).map(t => new Uint8Array(t.test))

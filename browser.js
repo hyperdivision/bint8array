@@ -39,15 +39,15 @@ module.exports.fromString = function (str, enc) {
 module.exports.equals = function (a, b) {
   if (a.byteLength !== b.byteLength) return false
 
-  const len = a.byteLength >>> 3
-  const A = new Float64Array(a.buffer, a.byteOffset, len)
-  const B = new Float64Array(b.buffer, b.byteOffset, len)
+  const len = a.byteLength >>> 2
+  const A = new Uint32Array(a.buffer, a.byteOffset, len)
+  const B = new Uint32Array(b.buffer, b.byteOffset, len)
 
   for (let i = 0; i < A.length; i++) {
     if (A[i] !== B[i]) return false
   }
 
-  for (let i = len << 3; i < a.byteLength; i++) {
+  for (let i = len << 2; i < a.byteLength; i++) {
     if (a[i] !== b[i]) return false
   }
 
