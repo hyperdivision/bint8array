@@ -9,6 +9,8 @@ module.exports.toString = function (buf, enc) {
       return base64.toString(buf)
 
     case 'utf-8' :
+    case 'utf8' :
+    case 'ascii' :
     case undefined :
       return utf8.toString(buf)
 
