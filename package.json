@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/hyperdivision/bint8array/issues"
   },
-  "homepage": "https://github.com/hyperdivision/bint8array#readme"
+  "homepage": "https://github.com/hyperdivision/bint8array#readme",
+  "devDependencies": {
+    "tape": "^5.1.1"
+  }
 }
