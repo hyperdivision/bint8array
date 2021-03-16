@@ -1,4 +1,5 @@
-const { hex, utf8, base64 } = require('./lib')
+const { hex, base64 } = require('./lib')
+const utf8 = require('./lib/utf8-browser')
 
 module.exports.toString = function (buf, enc) {
   switch (enc) {
@@ -9,6 +10,8 @@ module.exports.toString = function (buf, enc) {
       return base64.toString(buf)
 
     case 'utf-8' :
+    case 'utf8' :
+    case 'ascii' :
     case undefined :
       return utf8.toString(buf)
 
