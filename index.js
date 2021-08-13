@@ -58,23 +58,52 @@ module.exports.equals = function (a, b) {
 
 module.exports.compare = function (a, b) {
   const min = Math.min(a.byteLength, b.byteLength)
-  const len = min >>> 2
 
-  const A = new Uint32Array(a.buffer, a.byteOffset, len)
-  const B = new Uint32Array(b.buffer, b.byteOffset, len)
+  // check that byteOffset is multiple of 4
+  if (!(a.byteOffset | b.byteOffset) & 0x3) {
+    const len = min >>> 2
 
-  let i
-  for (i = 0; i < len; i++) {
-    if (A[i] !== B[i]) break
+    const A = new Uint32Array(a.buffer, a.byteOffset, len)
+    const B = new Uint32Array(b.buffer, b.byteOffset, len)
+
+    let i
+    for (i = 0; i < len; i++) {
+      if (A[i] !== B[i]) break
+    }
+
+    const pos = i << 2
+    for (let j = pos; j < min; j++) {
+      if (a[j] < b[j]) return -1
+      if (a[j] > b[j]) return 1
+    }
+
+    return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0
+  } else if (!(a.byteOffset | b.byteOffset) & 0x3) {
+    const len = min >>> 1
+
+    const A = new Uint16Array(a.buffer, a.byteOffset, len)
+    const B = new Uint16Array(b.buffer, b.byteOffset, len)
+
+    let i
+    for (i = 0; i < len; i++) {
+      if (A[i] !== B[i]) break
+    }
+
+    const pos = i << 1
+    for (let j = pos; j < min; j++) {
+      if (a[j] < b[j]) return -1
+      if (a[j] > b[j]) return 1
+    }
+
+    return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0
+  } else {
+    let i
+    for (i = 0; i < min; i++) {
+      if (a[i] !== b[i]) break
+    }
+
+    return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0
   }
-
-  const pos = i << 2
-  for (let j = pos; j < min; j++) {
-    if (a[j] < b[j]) return -1
-    if (a[j] > b[j]) return 1
-  }
-
-  return a.byteLength > b.byteLength ? 1 : a.byteLength < b.byteLength ? -1 : 0
 }
 
 module.exports.concat = function (bufs) {
